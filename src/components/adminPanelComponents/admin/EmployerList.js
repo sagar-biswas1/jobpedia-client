@@ -1,35 +1,27 @@
 import React from "react";
 
-function EmployerList() {
+function EmployerList({ employerList }) {
+
+
   return (
     <div>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Cell no</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {employerList.map((e) => (
+            <tr key={e._id}>
+              <th scope="row">{e?.name}</th>
+              <td>{e?.email}</td>
+              <td>{e?.mobileNumber}</td>
+            
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
