@@ -18,3 +18,46 @@
 ::-webkit-scrollbar-thumb:hover {
   background: black; 
 }
+
+.login-ui{
+  display: grid;
+    place-items: center;
+    height: 100vh;
+    
+}
+
+
+
+
+.purple-card .green-card {
+ 
+    box-sizing: border-box;
+
+  font-family: Ubuntu;
+  border-radius: 25px;
+  color: white;
+  line-height: 25px;
+  box-shadow: 5px 5px 10px #ccc;
+  float: left;
+  margin-right: 1em;
+}
+.purple-card{
+   background: linear-gradient(150deg, #f731db, #4600f1 100%);
+}
+.green-card{
+    background: linear-gradient(150deg, #39ef74, #4600f1 100%);
+}
+
+.price-btn {
+  text-transform: uppercase;
+ 
+  display: block;
+  margin: 0 auto;
+  color: #4600f1;
+  border-radius: 50px;
+  padding: 1em;
+  background: white;
+  border: none;
+  font-weight: bold;
+  margin-top: 4em;
+}

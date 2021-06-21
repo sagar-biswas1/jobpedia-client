@@ -1,22 +1,36 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { loadJobs, searchJobs } from "../redux/actions/jobActions";
 
 function SearchBox() {
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    search ? dispatch(searchJobs(search)) : dispatch(loadJobs());
+  }, [search, dispatch]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div class='p-3'>
-      <form class="d-flex">
+    <div className="p-3 w-75 m-auto">
+      <form className="d-flex">
         <input
-          class="form-control me-2"
+          className="form-control me-2"
           type="search"
           placeholder="Job name/title"
           aria-label="Search"
+          onBlur={(e) => setSearch(e.target.value)}
         />
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Location"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">
+
+        <button
+          className="btn btn-outline-success"
+          type="submit"
+          onClick={handleSearch}
+        >
           Search
         </button>
       </form>

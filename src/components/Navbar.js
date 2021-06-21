@@ -1,14 +1,40 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { logOut } from "../pages/login/loginMethods";
+import { removeUser } from "../redux/actions/userLogin";
 
 function Navbar() {
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userData.userInfo);
+
+  const [displayAdminNav, setDisplayAdminNav] = useState(false);
+  useEffect(() => {
+    axios
+      .get(`https://afternoon-shelf-00792.herokuapp.com/is-admin/${userData.email}`)
+      .then(function (response) {
+        setDisplayAdminNav(response.data.isAdmin);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [userData]);
+
+  const handleLogOut = () => {
+    logOut();
+    dispatch(removeUser());
+  };
+
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-info">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#" className="fw-bold">
+    <nav className="navbar navbar-expand-lg navbar-light bg-info">
+      <div className="container-fluid">
+        <Link className="navbar-brand fw-bold" to="/">
           JOBPEDIA
-        </a>
+        </Link>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -16,31 +42,46 @@ function Navbar() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav m-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav m-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link active" aria-current="page" to="/">
                 Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                login
-              </a>
+              </Link>
             </li>
 
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-              >
-                Dashboard
-              </a>
-            </li>
+            {displayAdminNav && (
+              <li className="nav-item">
+                <Link className="nav-link " to="/admin-dashboard/job-list">
+                  Dashboard
+                </Link>
+              </li>
+            )}
+
+            {userData.role === "employer" && (
+              <li className="nav-item">
+                <Link className="nav-link " to="/employer-dashboard/post-job">
+                  Dashboard
+                </Link>
+              </li>
+            )}
+          </ul>
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            {userData.email ? (
+              <li className="nav-item" style={{ cursor: "pointer" }}>
+                <span className="nav-link" onClick={handleLogOut}>
+                  log-out
+                </span>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <Link className="nav-link " to="/login">
+                  login
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
